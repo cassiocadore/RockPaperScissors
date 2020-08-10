@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body></body>
+    <script>
+        const options = ['rock', 'paper','scissors'];
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function toCamelCase(str){
+            let firstLetter = str.charAt(0);
+            let firstLetterUpperCase = firstLetter.toUpperCase();
+            let newString = str.substr(1);
+            return firstLetterUpperCase+newString;
+        }
+
+        function computerPlay(){
+            return options[Math.floor(Math.random()*3)].toLowerCase();
+        }
+
+        function playerPlay(){
+            let playerInput = prompt('Rock, paper or scissors?');
+                if(playerInput != null){
+                    playerInput = playerInput.toLowerCase();
+                    if(checkPlayerInput(playerInput))
+                        return playerInput;
+                    else{
+                        alert(playerInput + " is not a valid option!");
+                        playerPlay();
+                    }
+            }
+            return false;
+        }
+
+        function checkPlayerInput(playerInput){
+            for(i = 0; i < options.length; i++){  
+                    if (playerInput == options[i])
+                    return true;
+            }               
+            return false;
+        }
+
+        function playerWinRound(playerSelection, computerSelection){
+            playerScore++;
+            return 'You Win! ' + toCamelCase(playerSelection) + ' beats ' + computerSelection + '!';
+        }
+
+        function computerWinRound(playerSelection, computerSelection){
+            computerScore++;
+            return 'You Lose! ' + toCamelCase(computerSelection) + ' beats ' + playerSelection + '!';
+        }
+
+        function draw(){
+            return 'Draw!';
+        }
+
+        function playRound(playerSelection, computerSelection){
+            if(playerSelection == 'rock' && computerSelection == 'paper') return playerWinRound(playerSelection, computerSelection);        
+            if(playerSelection == 'rock' && computerSelection == 'scissors') return  computerWinRound(playerSelection, computerSelection);
+            if(playerSelection == 'rock' && computerSelection == 'rock') return  false;
+
+            if(playerSelection == 'paper' && computerSelection == 'rock') return  playerWinRound(playerSelection, computerSelection);
+            if(playerSelection == 'paper' && computerSelection == 'scissors') return  computerWinRound(playerSelection, computerSelection);
+            if(playerSelection == 'paper' && computerSelection == 'paper') return  false;
+
+            if(playerSelection == 'scissors' && computerSelection == 'rock') return  playerWinRound(playerSelection, computerSelection);
+            if(playerSelection == 'scissors' && computerSelection == 'paper') return  computerWinRound(playerSelection, computerSelection);
+            if(playerSelection == 'scissors' && computerSelection == 'scissors') return false;
+        }
+
+        function game(){
+
+            let round = 0;
+            while(round<3){
+                let player = playerPlay();
+                if(player){
+                    let result = playRound(player,computerPlay());
+                    if(result){
+                        console.log(result);
+                        round++;    
+                    }
+                    else{
+                        console.log(draw());                   
+                    }
+                }
+                else{
+                    if(confirm('You are about to leave the game...')){
+                        console.log('The player has cancelled the game!');
+                        return false;
+                    }
+                }   
+            }
+            console.log((playerScore > computerScore) ?'You Won!': 'You Lost!');
+            console.log('Player Score: ' + playerScore);
+            console.log('Computer Score: ' + computerScore);
+  
+        }
+        game();
+    </script>
+</html>
